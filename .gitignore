@@ -2,6 +2,7 @@
 /Assets/SteamVR*
 /Assets/SteamVR_Input*
 /Assets/SteamVR_Resources*
+Assets/Asset Store/TerrainDemoScene_URP*
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
