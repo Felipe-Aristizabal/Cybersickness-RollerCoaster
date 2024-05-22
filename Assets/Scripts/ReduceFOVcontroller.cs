@@ -10,35 +10,61 @@ namespace Rollercoaster
         private Rigidbody trainRigidBody;
         private CoasterTrain coasterTrainScript; 
         [SerializeField] Camera cameraVRplayer;
+        [SerializeField] GameObject canvasPlayer;
 
-        private float fovMin = 80;
-        private float fovMax = 110;
+        private GameObject bound1;
+        private GameObject bound2;
+        private GameObject bound3;
+        private GameObject bound4;
+        private float velocityToReduceFov = 1.0f;
+        private float scaleToReduce = 2.5F;
 
         // Start is called before the first frame update
         void Start()
         {
-            cameraVRplayer.stereoTargetEye = StereoTargetEyeMask.None;    
-
-            Debug.Log(transform.parent.transform.parent.transform.parent.name);
-            if (transform.parent.transform.parent.transform.parent.name == "ExampleTrain")
+            Debug.Log(cameraVRplayer.transform.parent.transform.parent.transform.parent.name);
+            if (cameraVRplayer.transform.parent.transform.parent.transform.parent.name == "ExampleTrain")
             {
-                trainGameObject = transform.parent.transform.parent.transform.parent.gameObject;
+                trainGameObject = cameraVRplayer.transform.parent.transform.parent.transform.parent.gameObject;
                 trainRigidBody = trainGameObject.GetComponent<Rigidbody>();
                 coasterTrainScript = trainGameObject.GetComponent<CoasterTrain>();
             }
+
+            bound1 = canvasPlayer.transform.GetChild(0).gameObject;
+            bound2 = canvasPlayer.transform.GetChild(1).gameObject;
+            bound3 = canvasPlayer.transform.GetChild(2).gameObject;
+            bound4 = canvasPlayer.transform.GetChild(3).gameObject;
+
+            Debug.Log(bound3.gameObject.name);
         }
 
         // Update is called once per frame
         void FixedUpdate()
         {
-            Debug.Log("My actual velocity is:" + coasterTrainScript.velocity);
-            if (coasterTrainScript.velocity > 20f)
+            //Debug.Log("My actual velocity is:" + coasterTrainScript.velocity);
+            if (coasterTrainScript.velocity > 15)
             {
-                cameraVRplayer.fieldOfView = fovMin;
+                scaleToReduce = 2;
+                Debug.Log("Voy rapidisimo");
+                velocityToReduceFov = 1.0f;
+ 
+                bound1.transform.localScale = new Vector3(scaleToReduce, scaleToReduce, scaleToReduce);
+                bound2.transform.localScale = new Vector3(scaleToReduce, scaleToReduce, scaleToReduce);
+                bound3.transform.localScale = new Vector3(scaleToReduce, scaleToReduce, scaleToReduce);
+                bound4.transform.localScale = new Vector3(scaleToReduce, scaleToReduce, scaleToReduce);
+
             }
             else
             {
-                cameraVRplayer.fieldOfView = fovMax;
+                scaleToReduce = 1;
+                Debug.Log("Voy lentisimo");
+                velocityToReduceFov = -1.0f;
+
+                bound1.transform.localScale = new Vector3(scaleToReduce, scaleToReduce, scaleToReduce);
+                bound2.transform.localScale = new Vector3(scaleToReduce, scaleToReduce, scaleToReduce);
+                bound3.transform.localScale = new Vector3(scaleToReduce, scaleToReduce, scaleToReduce);
+                bound4.transform.localScale = new Vector3(scaleToReduce, scaleToReduce, scaleToReduce);
+                   
             }
         }
     }
